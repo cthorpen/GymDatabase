@@ -266,7 +266,7 @@ GO
 /*
 STORED PROCEDURES
 */
--- procedure to insert a Member intto a class
+-- procedure to insert a Member into a class
 CREATE OR ALTER PROCEDURE uspInsertMemberToClass
 @FirstName VARCHAR(50),
 @LastName VARCHAR(50), 
@@ -305,11 +305,17 @@ COMMIT TRANSACTION T1
 GO
 -- execute
 EXEC uspInsertMemberToClass
-@FirstName = 'Dwayne',
-@LastName = 'Johnson',
-@GymID = 4,
-@ClassName = 'ChrisFit',
-@RegFee = 25
+@FirstName = 'Jason',
+@LastName = 'Terry',
+@GymID = 2,
+@ClassName = 'Olympic Barbell',
+@RegFee = 30
+GO
+
+SELECT M.MemberID, M.MemberFname, M.MemberLname, CL.ClassID, C.ClassName
+FROM tblCLASS_LIST CL
+    JOIN tblMEMBER M ON M.MemberID = CL.MemberID
+    JOIN tblCLASS C ON C.ClassID = CL.ClassID
 GO
 
 -- procedure to insert a new exercise
@@ -345,10 +351,14 @@ COMMIT TRANSACTION T2
 GO
 -- execute
 EXEC uspInsertNewExercise
-@ExerciseName = 'Bent Over Rows',
-@MusclesWorked = 'Back',
-@Equipment = 'Dumbbells',
-@ExerciseType = 'Weights'
+@ExerciseName = 'Handstand Push Up',
+@MusclesWorked = 'Shoulders',
+@Equipment = 'No Equipment',
+@ExerciseType = 'Calisthenics'
+GO
+
+SELECT *
+FROM tblEXERCISE
 GO
 
 /*
@@ -383,6 +393,13 @@ BEGIN
         PRINT 'removing from member count in tblGYM'
     ;
 END
+GO
+
+INSERT INTO tblMEMBER VALUES('Kelly', 'Slater', '53 Surf Way', 'Honolulu', 'Hawaii', '96120', 4, 'kslater332@yahoo.com')
+GO
+
+SELECT *
+FROM tblGYM
 GO
 
 -- trigger to protect rows in tblGYM from being deleted
